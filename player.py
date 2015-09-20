@@ -104,10 +104,16 @@ class Player(object):
 
     def move(self, direction):
         
+        directions = {"N" : "north",
+                      "S" : "south",
+                      "E" : "east",
+                      "W" : "west"}
+        
         current_room = rooms[self.room]
         next_room = getattr(current_room, direction)
 
         if next_room is not None:
+            print "You go %s." % directions[direction]
             self.room = next_room
         else:
             print "\nYou cannot go that way!"

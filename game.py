@@ -39,7 +39,7 @@ def parse(prompt):
     taking = ["take","get","steal"]
 
 # move isn't working right. Update to work like the others. Find a way to single source.
-    if get_first_word(input) in directions:
+    if get_first_word(input) in movements or get_first_word(input) in directions:
         if len(input) > 1 and get_first_word(input) in movements: del input[0]
         direction = input[0][0].upper()
         player.move(direction)

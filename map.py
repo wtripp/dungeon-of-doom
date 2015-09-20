@@ -33,7 +33,7 @@ class EntranceRoom(MapTile):
     W = "goblin_ruby_room"
     
     def description(self):
-        return room_description(self,"\nYou are at the entrance to the Dungeon of Doom.")
+        return room_description(self,"You are at the entrance to the Dungeon of Doom.")
     
 class SpiderRoom(MapTile):
     S = "entrance_room"
@@ -41,7 +41,7 @@ class SpiderRoom(MapTile):
     contents = [spider]
     
     def description(self):
-        return room_description(self,"\nYou are in the Giant Spider room.")
+        return room_description(self,"You are in the Giant Spider room.")
 
         
 class GoblinRubyRoom(MapTile):
@@ -56,7 +56,7 @@ class GoblinRubyRoom(MapTile):
     
     
     def description(self):
-        return room_description(self,"\nYou are in the Goblin Ruby room.")
+        return room_description(self,"You are in the Goblin Ruby room.")
         
 
 rooms = {'entrance_room' : EntranceRoom(),
