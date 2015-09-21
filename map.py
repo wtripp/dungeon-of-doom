@@ -48,11 +48,13 @@ class GoblinRubyRoom(MapTile):
     E = "entrance_room"
     goblin = enemies.Goblin()
     ruby = items.Ruby()
-    goblin.inventory.append(ruby)
+    goblin.inventory["ruby"] = ruby
     contents = {"goblin" : goblin}
     
+    # Need to figure out how to call this as soon as the fight is over.
     if not goblin.is_alive:
         contents["ruby"] = ruby
+        print contents
     
     
     def description(self):

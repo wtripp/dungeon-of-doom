@@ -65,7 +65,7 @@ def parse(prompt):
     elif get_first_word(input) in taking:    
         take_prompt = input[0]
         item = input[-1]
-        player.take(look_prompt, thing)
+        player.take(take_prompt, item)
 
     else:
         print "\nI don't understand."

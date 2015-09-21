@@ -7,7 +7,7 @@ import items
 from map import rooms
 
 def delay():
-    return time.sleep(0.5)
+    return time.sleep(0)
 
 def dead():    
     quips = ["Ding Dong, the Hero's Dead","Aw, don't cry, hero."]
@@ -22,7 +22,7 @@ class Player(object):
         self.hp = hp
         self.dmg = dmg
         self.room = room
-        self.inventory = []
+        self.inventory = {}
         self.victory = False
     
     def description(self):
@@ -80,22 +80,19 @@ class Player(object):
         elif thing == "room" or thing == "myself" or thing == "me":
             print "You can't take that!"
 
-############### take            
-        elif isinstance(thing, items.Item):
-            
-            #item = 
-            if thing in contents:
-                if thing.isGettable:
-                    print "You take the %s" % thing.name
-                    thing.append()
-            for content in rooms[self.room].contents:
-                if thing.name == thing:
-                    print content.description()
-                    break
-############### end take
-
-        else:
-            print "There's nothing like that here."     
+        else:            
+            try:
+                item = rooms[self.room].contents[thing]
+                if hasattr(item, items.isGettable) and item.isGettable:
+                    print "You %s the %s." % (take_prompt, item)
+                    self.inventory[item.name] = item
+                    del item
+                else:
+                    print "You can't %s the %s!" % (take_prompt, item)
+                    
+            except KeyError:
+                print "There's nothing like that here."
+  
 
     def move(self, direction):
         
