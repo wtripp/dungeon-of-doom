@@ -6,7 +6,7 @@ class MapTile(object):
     S = None
     E = None
     W = None
-    contents  = []
+    contents  = {}
     
     def description(self):
         return "Override this object with a specific Room object."
@@ -24,8 +24,8 @@ class MapTile(object):
     def room_contents(self):
         """Get the descriptions of the room's contents."""
         contents_desc = []
-        for thing in self.contents:
-            contents_desc.append(thing.description())
+        for k, v in self.contents.items():
+            contents_desc.append(v.description())
         return "\n".join(contents_desc)
     
 class EntranceRoom(MapTile):
@@ -38,7 +38,7 @@ class EntranceRoom(MapTile):
 class SpiderRoom(MapTile):
     S = "entrance_room"
     spider = enemies.Spider()
-    contents = [spider]
+    contents = {"spider" : spider}
     
     def description(self):
         return room_description(self,"You are in the Giant Spider room.")
@@ -49,10 +49,10 @@ class GoblinRubyRoom(MapTile):
     goblin = enemies.Goblin()
     ruby = items.Ruby()
     goblin.inventory.append(ruby)
-    contents = [goblin]
+    contents = {"goblin" : goblin}
     
     if not goblin.is_alive:
-        contents.append(ruby)
+        contents["ruby"] = ruby
     
     
     def description(self):

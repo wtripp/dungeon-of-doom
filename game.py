@@ -38,7 +38,6 @@ def parse(prompt):
     looking = ["look","see","inspect","view"]
     taking = ["take","get","steal"]
 
-# move isn't working right. Update to work like the others. Find a way to single source.
     if get_first_word(input) in movements or get_first_word(input) in directions:
         if len(input) > 1 and get_first_word(input) in movements: del input[0]
         direction = input[0][0].upper()
@@ -47,33 +46,30 @@ def parse(prompt):
     elif get_first_word(input) in fighting:        
         fight_prompt = input[0]
         enemy = input[-1]
-        parse_fight_prompt(fight_prompt, enemy)
-
+        
+        if enemy == fight_prompt:
+            print "What do you want to %s?" % fight_prompt
+        
+        else:
+            try:
+                enemy_to_fight = rooms[player.room].contents[enemy]
+                player.fight(enemy_to_fight)
+            except KeyError:
+                print "You can't %s that!" % fight_prompt
+                
     elif get_first_word(input) in looking:    
         look_prompt = input[0]
         thing = input[-1]
         player.look(look_prompt, thing)
 
-        #elif get_first_word(input) in taking:    
-        #take_prompt = input[0]
-        #item = input[-1]
-        #player.take(look_prompt, thing)
+    elif get_first_word(input) in taking:    
+        take_prompt = input[0]
+        item = input[-1]
+        player.take(look_prompt, thing)
 
     else:
         print "\nI don't understand."
 
-def parse_fight_prompt(fight_prompt, enemy):        
-
-    if enemy == fight_prompt:
-        print "What do you want to %s?" % fight_prompt
-    
-    else:
-        enemy_to_fight = [e for e in rooms[player.room].contents \
-                          if e.name == enemy and isinstance(e, enemies.Enemy)]
-        try:
-            player.fight(enemy_to_fight[0])
-        except IndexError:
-            print "You can't %s that!" % fight_prompt
 
 def get_first_word(input):
     return input[0].lower()

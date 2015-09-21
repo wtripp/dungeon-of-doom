@@ -66,17 +66,12 @@ class Player(object):
         elif thing == "me" or thing == "myself" or thing == "self":
             print self.description()
         
-        else:
-
-            for content in rooms[self.room].contents:
-                if content.name == thing:
-                    print content.description()
-                    break
-
-            else:
-                print "There's nothing like that here."     
-
-                
+        else:            
+            try:
+                print rooms[self.room].contents[thing].description()
+            except KeyError:
+                print "There's nothing like that here."
+                                
     def take(self, take_prompt, thing):
 
         if thing == take_prompt:
