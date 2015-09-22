@@ -14,17 +14,16 @@ class Enemy(object):
         
     def description(self):
 
-        desc = []
         if self.is_alive():
-            desc.append("An evil %s stands before you.\n" % self.name)
+            return "An evil %s stands before you." % self.name
         else:
-            desc.append("A dead %s lies before you.\n" % self.name)
+            desc = []
+            desc.append("A dead %s lies before you." % self.name)
             for k,v in self.inventory.items():
-                desc.append("It has a %s in its possession.\n" % k)
-        
-        return "\n".join(desc)
+                desc.append("You see a %s in its possessions." % v.name)
 
-        
+            return "\n".join(desc)
+            
 class Goblin(Enemy):
     def __init__(self):
         super(Goblin, self).__init__(name="goblin", hp=10, dmg=6)

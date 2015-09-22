@@ -6,20 +6,28 @@ class Item(object):
         self.name = name
         self.isGettable = isGettable
         self.useWith = []
+
+    def description(self):
+        return "This item has no description.\n"
         
     def use(self):
         return "The %s does nothing." % self.name
     
     def useOn(self, otherObject):
         return "You can't use the %s on the %s!" % (self.name, otherObject.name)
+        
+
     
 class Ruby(Item):
     
     def __init__(self):
         super(Ruby, self).__init__(name="ruby", isGettable=True)
-        
+
+    def description(self):
+        return "You see a red, sparkly ruby.\n"       
+
     def useOn(self, otherItem):
-        
+    
         if type(otherItem) == Rod:
             return Wand()
             
@@ -31,11 +39,22 @@ class Rod(Item):
     def __init__(self):
         super(Ruby, self).__init__(name="rod", isGettable=True)
 
+    def description(self):
+        return "You see a long, straight wooden rod.\n"       
+
 class Hook(Item):
 
     def __init__(self):
         super(Hook, self).__init__(name="hook", isGettable=False)
         self.isPulled = False
+
+    def description(self):
+    
+        if not self.isPulled:
+            return "You see a hook on the wall. It looks like it can be pulled.\n"
+            
+        else:
+            return "You see a hook on the wall. It has been pulled.\n"
 
     def use(self):
         
@@ -44,13 +63,21 @@ class Hook(Item):
             self.isPulled = True
             
         else:
-            print "You already pulled the %s" % self.name
+            print "You already pulled the %s." % self.name
             
 class Door(Item):
 
     def __init__(self, lock_status):
         super(Door, self).__init__(name="door", isGettable=False)
         self.lock_status = lock_status
+
+    def description(self):
+        
+        if self.lock_status == False:
+            return "You see a door. It is locked.\n"
+            
+        else:
+            return "You see a door. It is unlocked.\n"
         
     def use(self):
     
@@ -65,7 +92,10 @@ class Key(Item):
 
     def __init__(self):
         super(Door, self).__init__(name="door", isGettable=False)
-        
+
+    def description(self):
+        return "You see a small key.\n"        
+
     def useOn(self, otherItem):
         
         if type(otherItem) == Door:
@@ -85,6 +115,9 @@ class Wand(Item):
     def __init__(self):
         super(Ruby, self).__init__(name="wand", isGettable=True)
         self.dmg = 100
+
+    def description(self):
+        return "You see a powerful wand with a red ruby at the top.\n"   
 
     def use(self):
         return "Use the %s on what?" % self.name

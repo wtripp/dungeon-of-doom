@@ -44,6 +44,7 @@ class Player(object):
             if enemy.hp <= 0:
                 print "You killed the %s!" % enemy.name
                 enemy.isAlive = False
+                rooms[self.room].update_room_conditions()
             
             else:
                 print "The %s attacks!" % enemy.name
@@ -61,7 +62,7 @@ class Player(object):
     def look(self, look_prompt, thing):
 
         if thing == look_prompt or thing == "room":
-            print rooms[self.room].description()
+            print "You see the room your are in."
             
         elif thing == "me" or thing == "myself" or thing == "self":
             print self.description()
@@ -82,11 +83,11 @@ class Player(object):
 
         else:            
             try:
-                item = rooms[self.room].contents[thing]
-                if hasattr(item, items.isGettable) and item.isGettable:
-                    print "You %s the %s." % (take_prompt, item)
-                    self.inventory[item.name] = item
-                    del item
+                item = rooms[self.room].deep_contents[thing]
+                if hasattr(item, 'isGettable') and item.isGettable:
+                    print "You %s the %s." % (take_prompt, item.name)
+                    del rooms[self.room].deep_contents[thing]
+# need to fix up contents-deep contents thing
                 else:
                     print "You can't %s the %s!" % (take_prompt, item)
                     

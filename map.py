@@ -8,6 +8,9 @@ class MapTile(object):
     W = None
     contents  = {}
     
+    def update_room_conditions(self):
+        pass
+    
     def description(self):
         return "Override this object with a specific Room object."
     
@@ -41,22 +44,24 @@ class SpiderRoom(MapTile):
     contents = {"spider" : spider}
     
     def description(self):
-        return room_description(self,"You are in the Giant Spider room.")
+        return room_description(self, "You are in the Giant Spider room.")
 
         
 class GoblinRubyRoom(MapTile):
     E = "entrance_room"
     goblin = enemies.Goblin()
-    ruby = items.Ruby()
-    goblin.inventory["ruby"] = ruby
-    contents = {"goblin" : goblin}
-    
-    # Need to figure out how to call this as soon as the fight is over.
-    if not goblin.is_alive:
-        contents["ruby"] = ruby
-        print contents
-    
-    
+    contents = {"goblin" : goblin}    
+
+    deep_contents = contents    
+    for content_name,content in contents:
+        if hasattr(content, 'isAlive') and content.isAlive == False:
+            deep_contents[content.name] = content
+
+    def update_room_conditions(self):    
+        if not self.goblin.is_alive():
+            self.goblin.inventory["ruby"] = items.Ruby()
+            self.deep_contents["ruby"] = items.Ruby()
+# need to fix content, deep_contents    
     def description(self):
         return room_description(self,"You are in the Goblin Ruby room.")
         

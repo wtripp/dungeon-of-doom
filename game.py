@@ -6,7 +6,7 @@ from player import Player
 
 def play():
     os.system('cls')
-    print "\n\nYour quest is to defeat the evil spider in the Dungeon of Doom."
+    print "Your quest is to defeat the evil spider in the Dungeon of Doom."
     print "-" * 20
     print rooms[player.room].description()
     
@@ -35,7 +35,7 @@ def parse(prompt):
     movements = ["move","go","travel","head"]
     directions = ["north","south","east","west","n","s","e","w"]
     fighting = ["kill","destroy","fight","slay"]
-    looking = ["look","see","inspect","view"]
+    looking = ["look","see","inspect","view","search"]
     taking = ["take","get","steal"]
 
     if get_first_word(input) in movements or get_first_word(input) in directions:
