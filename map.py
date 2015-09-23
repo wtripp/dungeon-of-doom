@@ -24,11 +24,11 @@ class MapTile(object):
                 dir_desc.append("You can go %s." % dir_names[a])
         return "\n".join(dir_desc)
 
-    def room_contents(self):
+    def contents_desc(self):
         """Get the descriptions of the room's contents."""
         contents_desc = []
-        for k, v in self.contents.items():
-            contents_desc.append(v.description())
+        for item_name, item in self.contents.items():
+            contents_desc.append(item.description())
         return "\n".join(contents_desc)
     
 class EntranceRoom(MapTile):
@@ -37,7 +37,7 @@ class EntranceRoom(MapTile):
     
     def description(self):
         return room_description(self,"You are at the entrance to the Dungeon of Doom.")
-    
+
 class SpiderRoom(MapTile):
     S = "entrance_room"
     spider = enemies.Spider()
@@ -52,16 +52,10 @@ class GoblinRubyRoom(MapTile):
     goblin = enemies.Goblin()
     contents = {"goblin" : goblin}    
 
-    deep_contents = contents    
-    for content_name,content in contents:
-        if hasattr(content, 'isAlive') and content.isAlive == False:
-            deep_contents[content.name] = content
-
     def update_room_conditions(self):    
         if not self.goblin.is_alive():
             self.goblin.inventory["ruby"] = items.Ruby()
-            self.deep_contents["ruby"] = items.Ruby()
-# need to fix content, deep_contents    
+
     def description(self):
         return room_description(self,"You are in the Goblin Ruby room.")
         
@@ -73,6 +67,6 @@ rooms = {'entrance_room' : EntranceRoom(),
 def room_description(room,room_desc):
     desc = []
     desc.append(room_desc)
-    desc.append(super(type(room),room).room_contents())
+    desc.append(super(type(room),room).contents_desc())
     desc.append(super(type(room),room).directions())
     return "\n".join(desc)

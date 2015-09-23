@@ -19,8 +19,8 @@ class Enemy(object):
         else:
             desc = []
             desc.append("A dead %s lies before you." % self.name)
-            for k,v in self.inventory.items():
-                desc.append("You see a %s in its possessions." % v.name)
+            for item_name, item in self.inventory.items():
+                desc.append("You see a %s in its possessions." % item_name)
 
             return "\n".join(desc)
             
