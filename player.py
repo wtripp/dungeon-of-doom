@@ -30,7 +30,14 @@ class Player(object):
 
     def is_alive(self):
         return self.hp > 0
-    
+
+
+    def use(self, use_prompt, object=None, use_connecter=None, other_object=None):
+        print use_prompt, object, use_connecter, other_object
+
+
+
+        
     def fight(self, enemy):
         
         if not enemy.is_alive():
@@ -96,8 +103,8 @@ class Player(object):
         if thing == take_prompt:
             print "What do you want to %s?" % take_prompt 
             
-        elif thing == "room" or thing == "myself" or thing == "me":
-            print "You can't take that!"
+        elif thing in ["room", "myself", "me"]:
+            print "You can't %s that!" % take_prompt
 
         elif thing in room_contents:
         
