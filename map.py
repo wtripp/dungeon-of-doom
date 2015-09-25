@@ -34,6 +34,7 @@ class MapTile(object):
 class EntranceRoom(MapTile):
     N = "spider_room"
     W = "goblin_ruby_room"
+    E = "goblin_rod_room"
     
     def description(self):
         return room_description(self,"You are at the entrance to the Dungeon of Doom.")
@@ -59,10 +60,24 @@ class GoblinRubyRoom(MapTile):
     def description(self):
         return room_description(self,"You are in the Goblin Ruby room.")
         
+        
+class GoblinRodRoom(MapTile):
+    W = "entrance_room"
+    goblin = enemies.Goblin()
+    contents = {"goblin" : goblin}    
 
+    def update_room_conditions(self):    
+        if not self.goblin.is_alive():
+            self.goblin.inventory["rod"] = items.Rod()
+
+    def description(self):
+        return room_description(self,"You are in the Goblin Rod room.")
+        
+        
 rooms = {'entrance_room' : EntranceRoom(),
          'spider_room' : SpiderRoom(),
-         'goblin_ruby_room' : GoblinRubyRoom()}
+         'goblin_ruby_room' : GoblinRubyRoom(),
+         'goblin_rod_room' : GoblinRodRoom()}
         
 def room_description(room,room_desc):
     desc = []

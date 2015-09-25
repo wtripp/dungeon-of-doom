@@ -17,6 +17,7 @@ def play():
             os.system('cls')
             parse(prompt)
             print "-" * 20
+            #rooms[player.room].update_room_conditions()
             print rooms[player.room].description()
         except KeyboardInterrupt:
             os.system('cls')

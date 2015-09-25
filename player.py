@@ -32,10 +32,33 @@ class Player(object):
         return self.hp > 0
 
 
-    def use(self, use_prompt, object=None, use_connecter=None, other_object=None):
-        print use_prompt, object, use_connecter, other_object
+    def use(self, use_prompt, object, use_connecter=None, other_object=None):    
+        if use_connecter and other_object:
+            
+            if object and other_object in self.inventory:
+                useResult = self.inventory[object].useOn(self.inventory[other_object])
+                if useResult:
+                    self.inventory[useResult.name] = useResult
+                    del self.inventory[object]
+                    del self.inventory[other_object]
+            
+            elif object in self.inventory and other_object in rooms[self.room].contents:
+                self.inventory[object].useOn(rooms[self.room].contents[other_object])
+                
+            
+            else:
+                print "You can't do that!"
 
+        else:
+        
+            if object in self.inventory:
+                useResult = self.inventory[object].use()
+                if useResult:
+                    self.inventory[useResult.name] = useResult
+                    del self.inventory[object]
 
+            else:
+                print "You don't have the %s!" % object
 
         
     def fight(self, enemy):
@@ -85,8 +108,8 @@ class Player(object):
             
         elif thing == "inventory":
             if self.inventory:
-                print "Inventory:\n"
-                print "\t", "\n".join(self.inventory.keys())
+                print "Inventory:"
+                print "\n".join(self.inventory.keys())
             else:
                 print "You have nothing in your inventory."
         
