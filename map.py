@@ -32,7 +32,7 @@ class MapTile(object):
         return "\n".join(contents_desc)
     
 class EntranceRoom(MapTile):
-    N = "spider_room"
+    N = "door_room"
     W = "goblin_ruby_room"
     E = "goblin_rod_room"
     
@@ -40,7 +40,7 @@ class EntranceRoom(MapTile):
         return room_description(self,"You are at the entrance to the Dungeon of Doom.")
 
 class SpiderRoom(MapTile):
-    S = "entrance_room"
+    S = "door_room"
     spider = enemies.Spider()
     contents = {"spider" : spider}
     
@@ -77,12 +77,21 @@ class GoblinRodRoom(MapTile):
         return room_description(self,"You are in the Goblin Rod room.")
 
 class KeyRoom(MapTile):
-    pass
+    W = "door_room"
+    
+    def description(self):
+        return room_description(self,"You are in the key room.")
+
     
 class DoorRoom(MapTile):
-    pass
+    E = "key_room"
+    S = "entrance_room"
+    N = "spider_room"
 
-        
+    def description(self):
+        return room_description(self,"You are in the door room.")
+
+    
 rooms = {'entrance_room' : EntranceRoom(),
          'spider_room' : SpiderRoom(),
          'goblin_ruby_room' : GoblinRubyRoom(),
