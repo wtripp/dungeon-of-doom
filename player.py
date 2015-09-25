@@ -23,7 +23,6 @@ class Player(object):
         self.dmg = dmg
         self.room = room
         self.inventory = {}
-        self.victory = False
     
     def description(self):
         return "You are a noble hero on a quest for glory."

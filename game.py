@@ -10,14 +10,15 @@ def play():
     print "-" * 20
     print rooms[player.room].description()
     
-    while player.is_alive() and not player.victory:
+    while player.is_alive():
         try:
             print "-" * 20
             prompt = raw_input("\nWhat do you want to do?\n> ")
             os.system('cls')
             parse(prompt)
             print "-" * 20
-            #rooms[player.room].update_room_conditions()
+            if victory():
+                break
             print rooms[player.room].description()
         except KeyboardInterrupt:
             os.system('cls')
@@ -25,6 +26,9 @@ def play():
             exit(0)
 
     print "The End."
+
+def victory():
+    return  not rooms['spider_room'].contents['spider'].is_alive()
     
 def parse(prompt):
 
