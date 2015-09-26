@@ -46,10 +46,6 @@ class SpiderRoom(MapTile):
     
     def description(self):
         return room_description(self, "You are in the Giant Spider room.")
-
-    def update_room_conditions(self):    
-        if not self.spider.is_alive():
-            self.goblin.inventory["ruby"] = items.Ruby()
         
 class GoblinRubyRoom(MapTile):
     E = "entrance_room"
@@ -78,20 +74,31 @@ class GoblinRodRoom(MapTile):
 
 class KeyRoom(MapTile):
     W = "door_room"
+    contents = {"key" : items.Key()}
     
     def description(self):
         return room_description(self,"You are in the key room.")
 
     
 class DoorRoom(MapTile):
-    E = "key_room"
     S = "entrance_room"
-    N = "spider_room"
 
+    contents = {"door" : items.Door(True, "north"),
+                "hook" : items.Hook()}
+                
     def description(self):
         return room_description(self,"You are in the door room.")
 
-    
+    def update_room_conditions(self):    
+        if self.contents["door"].is_locked == False:
+            print "The door to the north is open."
+            self.N = "spider_room"
+        
+        if self.contents["hook"].is_pulled == True:
+            print "A room to the east is open."
+            self.E = "key_room"
+
+            
 rooms = {'entrance_room' : EntranceRoom(),
          'spider_room' : SpiderRoom(),
          'goblin_ruby_room' : GoblinRubyRoom(),

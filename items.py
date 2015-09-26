@@ -56,47 +56,48 @@ class Hook(Item):
 
     def __init__(self):
         super(Hook, self).__init__(name="hook", isGettable=False)
-        self.isPulled = False
+        self.is_pulled = False
 
     def description(self):
     
-        if not self.isPulled:
-            print "You see a hook on the wall. It looks like it can be pulled.\n"
+        if not self.is_pulled:
+            return "You see a hook on the wall. It looks like it can be pulled.\n"
             
         else:
-            print "You see a hook on the wall. It has been pulled.\n"
+            return "You see a hook on the wall. It has been pulled.\n"
 
     def use(self):
         
-        if self.isPulled:
-            print "You pull the %s" % self.name
-            self.isPulled = True
+        if not self.is_pulled:
+            print "You pull the %s." % self.name
+            self.is_pulled = True
             
         else:
             print "You already pulled the %s." % self.name
             
 class Door(Item):
 
-    def __init__(self, lock_status):
+    def __init__(self, is_locked, direction):
         super(Door, self).__init__(name="door", isGettable=False)
-        self.lock_status = lock_status
+        self.is_locked = is_locked
+        self.direction = direction
 
     def description(self):
         
-        if self.lock_status == False:
-            print "You see a door. It is locked.\n"
+        if self.is_locked == True:
+            return "You see a door on the %s wall. It is locked.\n" % self.direction
             
         else:
-            print "You see a door. It is unlocked.\n"
+            return "You see a door on the %s wall. It is unlocked.\n" % self.direction
         
     def use(self):
     
-        if self.lock_status == False:
+        if self.is_locked == True:
             print "The door is locked. You cannot open it."
             
         else:
             print "You unlock the door."
-            self.lock_status = True
+            self.is_locked = False
             
 class Key(Item):
 
@@ -104,15 +105,15 @@ class Key(Item):
         super(Key, self).__init__(name="key", isGettable=False)
 
     def description(self):
-        print "You see a small key.\n"        
+        return "You see a small key.\n"        
 
     def useOn(self, otherItem):
         
         if type(otherItem) == Door:
         
-            if otherItem.lock_status == True:
-                otherItem.lock_status == False
+            if otherItem.is_locked == True:
                 print "You unlock the %s." % otherItem.name
+                otherItem.is_locked = False
                 
             else:
                 print "The %s is already unlocked." % otherItem.name

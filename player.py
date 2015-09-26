@@ -43,7 +43,6 @@ class Player(object):
             
             elif object in self.inventory and other_object in rooms[self.room].contents:
                 self.inventory[object].useOn(rooms[self.room].contents[other_object])
-                
             
             else:
                 print "You can't do that!"
@@ -56,8 +55,11 @@ class Player(object):
                     self.inventory[useResult.name] = useResult
                     del self.inventory[object]
 
+            elif object in rooms[self.room].contents:
+                rooms[self.room].contents[object].use()
+                                        
             else:
-                print "You don't have the %s!" % object
+                print "There is no %s!" % object
 
         
     def fight(self, enemy):
@@ -135,7 +137,7 @@ class Player(object):
             if hasattr(item,'isGettable'):
                 print "You %s the %s." % (take_prompt, item.name)
                 self.inventory[thing] = item
-                del item
+                del room_contents[thing]
             else:
                 print "You can't %s the %s." % (take_prompt, item.name)
         

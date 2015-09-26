@@ -17,6 +17,7 @@ def play():
             os.system('cls')
             parse(prompt)
             print "-" * 20
+            rooms[player.room].update_room_conditions()
             if victory():
                 break
             print rooms[player.room].description()
@@ -42,7 +43,7 @@ def parse(prompt):
     fighting = ["kill","destroy","fight","slay"]
     looking = ["look","see","inspect","view","search"]
     taking = ["take","get","steal"]
-    using = ["use","put","combine","pull","push","close","open"]
+    using = ["use","put","combine","pull","push","close","open","lock","unlock"]
     using_connecters = ["on","with","in"]
 
     if get_first_word(input) in movements or get_first_word(input) in directions:
