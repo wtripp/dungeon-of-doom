@@ -8,7 +8,7 @@ class Item(object):
         self.useWith = []
 
     def description(self):
-        print "This item has no description.\n"
+        print "This item has no description."
         
     def use(self):
         print "The %s does nothing." % self.name
@@ -23,7 +23,7 @@ class Ruby(Item):
         super(Ruby, self).__init__(name="ruby", isGettable=True)
 
     def description(self):
-        print "You see a red, sparkly ruby.\n"       
+        print "You see a red, sparkly ruby."      
 
     def useOn(self, otherItem):
     
@@ -41,7 +41,7 @@ class Rod(Item):
         super(Rod, self).__init__(name="rod", isGettable=True)
 
     def description(self):
-        print "You see a long, straight wooden rod.\n"       
+        print "You see a long, straight wooden rod."       
 
     def useOn(self, otherItem):
     
@@ -61,10 +61,10 @@ class Hook(Item):
     def description(self):
     
         if not self.is_pulled:
-            return "You see a hook on the wall. It looks like it can be pulled.\n"
+            return "You see a hook on the wall. It looks like it can be pulled."
             
         else:
-            return "You see a hook on the wall. It has been pulled.\n"
+            return "You see a hook on the wall. It has been pulled."
 
     def use(self):
         
@@ -85,10 +85,10 @@ class Door(Item):
     def description(self):
         
         if self.is_locked == True:
-            return "You see a door on the %s wall. It is locked.\n" % self.direction
+            return "You see a door on the %s wall. It is locked." % self.direction
             
         else:
-            return "You see a door on the %s wall. It is unlocked.\n" % self.direction
+            return "You see a door on the %s wall. It is unlocked." % self.direction
         
     def use(self):
     
@@ -105,7 +105,7 @@ class Key(Item):
         super(Key, self).__init__(name="key", isGettable=False)
 
     def description(self):
-        return "You see a small key.\n"        
+        return "You see a small key."        
 
     def useOn(self, otherItem):
         
@@ -128,7 +128,7 @@ class Wand(Item):
         self.dmg = 100
 
     def description(self):
-        print "You see a powerful wand with a red ruby at the top.\n"   
+        print "You see a powerful wand with a red ruby at the top."   
 
     def use(self):
         print "Use the %s on what?" % self.name

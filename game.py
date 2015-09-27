@@ -1,42 +1,43 @@
 import os
 from sys import exit
-from map import rooms
+
 import enemies
 from player import Player
+from map import rooms
+from util import divider
+from util import delay
 
 def play():
     os.system('cls')
     print "Your quest is to defeat the evil spider in the Dungeon of Doom."
-    print "-" * 20
+    divider()
     print rooms[player.room].description()
     
     while player.is_alive():
         try:
-            print "-" * 20
+            divider()
             prompt = raw_input("\nWhat do you want to do?\n> ")
             os.system('cls')
             parse(prompt)
-            print "-" * 20
+            divider()
             rooms[player.room].update_room_conditions()
             if victory():
                 break
             print rooms[player.room].description()
         except KeyboardInterrupt:
-            os.system('cls')
-            print "Quitting the game.\n\n"
-            exit(0)
+            quit()
 
     print "The End."
 
+def quit():
+    os.system('cls')
+    print "Quitting the game."
+    exit(0)
+    
 def victory():
     return  not rooms['spider_room'].contents['spider'].is_alive()
     
 def parse(prompt):
-
-    input = prompt.split()
-    if input == []:
-        print "You didn't enter anything!"
-        return
 
     movements = ["move","go","travel","head"]
     directions = ["north","south","east","west","n","s","e","w"]
@@ -46,7 +47,22 @@ def parse(prompt):
     using = ["use","put","combine","pull","push","close","open","lock","unlock"]
     using_connecters = ["on","with","in"]
 
-    if get_first_word(input) in movements or get_first_word(input) in directions:
+    input = prompt.split()
+    
+    if input == []:
+        print "You didn't enter anything!"
+        return
+
+    elif len(input) == 1 and input[0].lower() == "inventory":
+        return player.look("look", "inventory")
+    
+    elif len(input) == 1 and input[0].lower() == "help":
+        return help()
+        
+    elif len(input) == 1 and input[0].lower() == "quit":
+        return quit()
+    
+    elif get_first_word(input) in movements or get_first_word(input) in directions:
         if len(input) > 1 and get_first_word(input) in movements: del input[0]
         direction = input[0][0].upper()
         player.move(direction)
@@ -105,11 +121,23 @@ def parse(prompt):
             player.use(use_prompt, object, use_connecter, other_object)
 
     else:
-        print "\nI don't understand."
+        print "I don't understand."
 
 
 def get_first_word(input):
     return input[0].lower()
 
+def help():
+    print"""
+    quit - Quit the game.
+    help - Get help.
+    inventory - See your inventory.
+    take <item> - Add something to your inventory.
+    look <thing> - Get the description of something.
+    use <item> - Use an item from your inventory.
+    fight <enemy> - Fight an enemy.
+    move <direction> - Move north, south, east, or west.
+    """
+    
 player = Player("hero", 20, 8, "entrance_room")        
 play()

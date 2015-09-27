@@ -1,19 +1,10 @@
 from sys import exit
 from random import randint
-import time
 
 import enemies
 import items
 from map import rooms
-
-def delay():
-    return time.sleep(0)
-
-def dead():    
-    quips = ["Ding Dong, the Hero's Dead","Aw, don't cry, hero."]
-    print quips[randint(0,len(quips)-1)]
-    print "Game Over."
-    exit(1)
+from util import delay
 
 class Player(object):
     
@@ -81,7 +72,6 @@ class Player(object):
                 if enemy.hp <= 0:
                     print "You killed the %s!" % enemy.name
                     enemy.isAlive = False
-                    rooms[self.room].update_room_conditions()
                 
                 else:
                     print "The %s attacks!" % enemy.name
@@ -168,4 +158,10 @@ class Player(object):
             print "You go %s." % directions[direction]
             self.room = next_room
         else:
-            print "\nYou cannot go that way!"
+            print "You cannot go that way!"
+            
+def dead():    
+    quips = ["Ding Dong, the Hero's Dead","Aw, don't cry, hero."]
+    print quips[randint(0,len(quips)-1)]
+    print "Game Over."
+    exit(1)
