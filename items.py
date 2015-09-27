@@ -1,6 +1,14 @@
+"""Items in the game."""
 import enemies
 
+
 class Item(object):
+    """
+    Base class for items.
+    1) Items can have a description.
+    2) Items can be used.
+    3) Items can be used on something else.
+   """
 
     def __init__(self, name, isGettable):
         self.name = name
@@ -18,7 +26,7 @@ class Item(object):
         
     
 class Ruby(Item):
-    
+    """The Ruby can be combined with the Rod to form a Wand."""
     def __init__(self):
         super(Ruby, self).__init__(name="ruby", isGettable=True)
 
@@ -36,7 +44,7 @@ class Ruby(Item):
 
             
 class Rod(Item):
-    
+    """The Rod can be combined with the Ruby to form a Wand."""    
     def __init__(self):
         super(Rod, self).__init__(name="rod", isGettable=True)
 
@@ -53,7 +61,7 @@ class Rod(Item):
             print "Try the other way around..."
         
 class Hook(Item):
-
+    """ The Hook can be pulled."""
     def __init__(self):
         super(Hook, self).__init__(name="hook", isGettable=False)
         self.is_pulled = False
@@ -76,7 +84,7 @@ class Hook(Item):
             print "You already pulled the %s." % self.name
             
 class Door(Item):
-
+    """The Door can be locked and can be opened up to a specified direction."""
     def __init__(self, is_locked, direction):
         super(Door, self).__init__(name="door", isGettable=False)
         self.is_locked = is_locked
@@ -85,10 +93,12 @@ class Door(Item):
     def description(self):
         
         if self.is_locked == True:
-            return "You see a door on the %s wall. It is locked." % self.direction
+            return "You see a door on the %s wall. It is locked." \
+                   % self.direction
             
         else:
-            return "You see a door on the %s wall. It is unlocked." % self.direction
+            return "You see a door on the %s wall. It is unlocked." \
+                   % self.direction
         
     def use(self):
     
@@ -100,7 +110,7 @@ class Door(Item):
             self.is_locked = False
             
 class Key(Item):
-
+    """The Key can open a locked Door."""
     def __init__(self):
         super(Key, self).__init__(name="key", isGettable=False)
 
@@ -122,7 +132,7 @@ class Key(Item):
             super(Key, self).useOn(otherItem)
 
 class Wand(Item):
-    
+    """The Wand can do a specified amount of damage"""  
     def __init__(self):
         super(Wand, self).__init__(name="wand", isGettable=True)
         self.dmg = 100
@@ -134,7 +144,9 @@ class Wand(Item):
         print "Use the %s on what?" % self.name
         
     def useOn(self, otherItem):
-
+        
+        # If the item's base class is Enemy and the enemy is alive,
+        # use the wand on the enemy.
         if enemies.Enemy in otherItem.__class__.__bases__ and \
            otherItem.is_alive():
             print "You use the %s on the %s." % (self.name, otherItem.name)
@@ -142,8 +154,10 @@ class Wand(Item):
                   (self.name, self.dmg, otherItem.name)
             otherItem.hp -= self.dmg
             
+            # If the enemy is dead, don't use the wand.
             if not otherItem.is_alive():
                 print "The %s is dead!" % otherItem.name
-                
+        
+        # Otherwise print the standard "You can't use the wand" message.
         else:
             super(Wand, self).useOn(otherItem)

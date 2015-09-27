@@ -6,6 +6,7 @@ import items
 from map import rooms
 from util import delay
 
+
 class Player(object):
     
     def __init__(self, name, hp, dmg, room):
@@ -160,7 +161,8 @@ class Player(object):
         else:
             print "You cannot go that way!"
             
-def dead():    
+def dead():
+    """Prints a quip about the player's death and then exits the game."""
     quips = ["Ding Dong, the Hero's Dead","Aw, don't cry, hero."]
     print quips[randint(0,len(quips)-1)]
     print "Game Over."
