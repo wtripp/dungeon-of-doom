@@ -1,6 +1,13 @@
+"""
+Map used in the game.
+The map is made up of map tiles, or rooms.
+Each room contains items or enemies.
+"""
 import enemies
 import items
 
+# Basic map tile used to create rooms with.
+# All rooms have up to four available directions, contents, and a description.
 class MapTile(object):    
     N = None
     S = None
@@ -9,16 +16,25 @@ class MapTile(object):
     contents  = {}
     
     def update_room_conditions(self):
+        """
+        Default update of room conditions,
+        if room has no conditions to update.
+        """
         pass
     
     def description(self):
+        """Default description of a room without its own description."""
         return "Override this object with a specific Room object."
     
     def directions(self):
         """Get the directions available from the room."""
+        
+        # Initalize variables for the directions.
         NSEW = [a for a in dir(self) if len(a) == 1 and a in "NSEW"]
         dir_names = {'N': 'north', 'S': 'south', 'E': 'east', 'W': 'west'}
         dir_desc = []
+        
+        # Print the directions available from the room.
         for a in NSEW:
             if getattr(self, a) is not None:
                 dir_desc.append("You can go %s." % dir_names[a])
@@ -30,7 +46,8 @@ class MapTile(object):
         for item_name, item in self.contents.items():
             contents_desc.append(item.description())
         return "\n".join(contents_desc)
-    
+
+        
 class EntranceRoom(MapTile):
     N = "door_room"
     W = "goblin_ruby_room"
@@ -39,6 +56,7 @@ class EntranceRoom(MapTile):
     def description(self):
         return room_description(self,"You are at the entrance to the Dungeon of Doom.")
 
+
 class SpiderRoom(MapTile):
     S = "door_room"
     spider = enemies.Spider()
@@ -46,6 +64,7 @@ class SpiderRoom(MapTile):
     
     def description(self):
         return room_description(self, "You are in the Giant Spider room.")
+
         
 class GoblinRubyRoom(MapTile):
     E = "entrance_room"
@@ -66,6 +85,7 @@ class GoblinRodRoom(MapTile):
     def description(self):
         return room_description(self,"You are in the Goblin Rod room.")
 
+
 class KeyRoom(MapTile):
     W = "door_room"
     contents = {"key" : items.Key()}
@@ -76,13 +96,12 @@ class KeyRoom(MapTile):
     
 class DoorRoom(MapTile):
     S = "entrance_room"
-
     contents = {"door" : items.Door(True, "north"),
                 "hook" : items.Hook()}
                 
     def description(self):
         return room_description(self,"You are in the door room.")
-
+    
     def update_room_conditions(self):    
         if self.contents["door"].is_locked == False:
             print "The door to the north is now open.\n"
@@ -92,15 +111,22 @@ class DoorRoom(MapTile):
             print "A room to the east is now open.\n"
             self.E = "key_room"
 
-            
+# Collection of all rooms in the game.            
 rooms = {'entrance_room' : EntranceRoom(),
          'spider_room' : SpiderRoom(),
          'goblin_ruby_room' : GoblinRubyRoom(),
          'goblin_rod_room' : GoblinRodRoom(),
          'key_room' : KeyRoom(),
          'door_room' : DoorRoom()}
-        
+
+         
 def room_description(room,room_desc):
+    """
+        Print all descriptions inside of the room.
+            1) The room description.
+            2) The descriptions for its contents.
+            3) The directions available from the room.
+    """
     desc = []
     desc.append(room_desc)
     desc.append(super(type(room),room).contents_desc())
