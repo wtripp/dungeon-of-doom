@@ -14,6 +14,28 @@ def play():
     
     # Clear the command prompt and show the game introduction.
     os.system('cls')
+    print """
+ ______            _        _______  _______  _______  _       
+(  __  \ |\     /|( (    /|(  ____ \(  ____ \(  ___  )( (    /|
+| (  \  )| )   ( ||  \  ( || (    \/| (    \/| (   ) ||  \  ( |
+| |   ) || |   | ||   \ | || |      | (__    | |   | ||   \ | |
+| |   | || |   | || (\ \) || | ____ |  __)   | |   | || (\ \) |
+| |   ) || |   | || | \   || | \_  )| (      | |   | || | \   |
+| (__/  )| (___) || )  \  || (___) || (____/\| (___) || )  \  |
+(______/ (_______)|/    )_)(_______)(_______/(_______)|/    )_)
+                                                               
+ _______  _______    ______   _______  _______  _______ 
+(  ___  )(  ____ \  (  __  \ (  ___  )(  ___  )(       )
+| (   ) || (    \/  | (  \  )| (   ) || (   ) || () () |
+| |   | || (__      | |   ) || |   | || |   | || || || |
+| |   | ||  __)     | |   | || |   | || |   | || |(_)| |
+| |   | || (        | |   ) || |   | || |   | || |   | |
+| (___) || )        | (__/  )| (___) || (___) || )   ( |
+(_______)|/         (______/ (_______)(_______)|/     \|
+                                                        
+        Type help for instructions, q to quit.
+        """
+    divider()
     print "Your quest is to defeat the evil spider in the Dungeon of Doom."
     divider()
     print rooms[player.room].description()
@@ -164,14 +186,14 @@ def parse(prompt):
             # 'use X on'
             if input[2] in using_connecters:
                 use_connecter = input[2]
-                print "What do you want to %s the %s %s?" % \
-                (use_prompt, object, use_connecter)
+                print "What do you want to %s the %s %s?" % (
+                use_prompt, object, use_connecter)
                 
             # 'use X Y'
             else:
                 other_object = input[2]
-                print "How do you want to %s %s and %s together?" % \
-                (use_prompt, object, other_object)
+                print "How do you want to %s %s and %s together?" % (
+                use_prompt, object, other_object)
         
         # Input is in 'use X on Y' format.
         else:

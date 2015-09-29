@@ -29,7 +29,8 @@ class Player(object):
         self.inventory = {}
     
     def description(self):
-        return "You are a noble hero on a quest for glory."
+        return"""You are a noble hero on a quest for glory.
+You have %s hit points left.""" % self.hp
 
     def is_alive(self):
         """Check if player is alive."""
@@ -46,7 +47,8 @@ class Player(object):
             
             # X and Y are in the player's inventory.
             if object and other_object in self.inventory:
-                useResult = self.inventory[object].useOn(self.inventory[other_object])
+                useResult = self.inventory[object].useOn(
+                self.inventory[other_object])
                 
                 # Use X on Y. Add the result of this command to the player's
                 # inventory. Then delete X and Y from the player's inventory.
@@ -56,9 +58,11 @@ class Player(object):
                     del self.inventory[other_object]
             
             # X is in the player's inventory and Y is in the room.
-            elif object in self.inventory and other_object in rooms[self.room].contents:
+            elif object in self.inventory and \
+            other_object in rooms[self.room].contents:
                 # Use X on Y.
-                self.inventory[object].useOn(rooms[self.room].contents[other_object])
+                self.inventory[object].useOn(
+                rooms[self.room].contents[other_object])
             
             else:
                 print "You can't do that!"
@@ -170,8 +174,8 @@ class Player(object):
         
             item = room_contents[thing]
             
-            # If the item is in the room, take it.
-            if hasattr(item,'is_gettable'):
+            # If the item is in the room (and gettable), take it.
+            if hasattr(item,'is_gettable') and item.is_gettable == True:
                 print "You %s the %s." % (take_prompt, item.name)
                 self.inventory[thing] = item
                 del room_contents[thing]
@@ -181,7 +185,7 @@ class Player(object):
         # Look at the items within a room's items, such as an enemy's inventory.
         else:
         
-            for enemy_name, enemy in room_contents.items():
+            for content_name, content in room_contents.items():
             
                 # The item has an inventory (such as an enemy).
                 if hasattr(content,'inventory'):

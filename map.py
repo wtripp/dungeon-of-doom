@@ -109,14 +109,18 @@ class DoorRoom(MapTile):
     def description(self):
         return room_description(self, "You are in the door room.")
     
-    def update_room_conditions(self):    
-        if self.contents["door"].is_locked == False:
-            print "The door to the north is now open.\n"
-            self.N = "spider_room"
-        
-        if self.contents["hook"].is_pulled == True:
-            print "A room to the east is now open.\n"
-            self.E = "key_room"
+    def update_room_conditions(self):
+    
+        try:
+            if self.contents["door"].is_locked == False:
+                print "The door to the north is now open.\n"
+                self.N = "spider_room"
+            
+            if self.contents["hook"].is_pulled == True:
+                print "A room to the east is now open.\n"
+                self.E = "key_room"
+        except KeyError:
+            pass
 
 
 # Collection of all rooms in the game.            
