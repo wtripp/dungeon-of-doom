@@ -10,9 +10,9 @@ class Item(object):
     3) Items can be used on something else.
    """
 
-    def __init__(self, name, isGettable):
+    def __init__(self, name, is_gettable):
         self.name = name
-        self.isGettable = isGettable
+        self.is_gettable = is_gettable
         self.useWith = []
 
     def description(self):
@@ -28,7 +28,7 @@ class Item(object):
 class Ruby(Item):
     """The Ruby can be combined with the Rod to form a Wand."""
     def __init__(self):
-        super(Ruby, self).__init__(name="ruby", isGettable=True)
+        super(Ruby, self).__init__(name="ruby", is_gettable=True)
 
     def description(self):
         print "You see a red, sparkly ruby."      
@@ -46,7 +46,7 @@ class Ruby(Item):
 class Rod(Item):
     """The Rod can be combined with the Ruby to form a Wand."""    
     def __init__(self):
-        super(Rod, self).__init__(name="rod", isGettable=True)
+        super(Rod, self).__init__(name="rod", is_gettable=True)
 
     def description(self):
         print "You see a long, straight wooden rod."       
@@ -63,7 +63,7 @@ class Rod(Item):
 class Hook(Item):
     """ The Hook can be pulled."""
     def __init__(self):
-        super(Hook, self).__init__(name="hook", isGettable=False)
+        super(Hook, self).__init__(name="hook", is_gettable=False)
         self.is_pulled = False
 
     def description(self):
@@ -86,7 +86,7 @@ class Hook(Item):
 class Door(Item):
     """The Door can be locked and can be opened up to a specified direction."""
     def __init__(self, is_locked, direction):
-        super(Door, self).__init__(name="door", isGettable=False)
+        super(Door, self).__init__(name="door", is_gettable=False)
         self.is_locked = is_locked
         self.direction = direction
 
@@ -112,7 +112,7 @@ class Door(Item):
 class Key(Item):
     """The Key can open a locked Door."""
     def __init__(self):
-        super(Key, self).__init__(name="key", isGettable=False)
+        super(Key, self).__init__(name="key", is_gettable=False)
 
     def description(self):
         return "You see a small key."        
@@ -134,7 +134,7 @@ class Key(Item):
 class Wand(Item):
     """The Wand can do a specified amount of damage"""  
     def __init__(self):
-        super(Wand, self).__init__(name="wand", isGettable=True)
+        super(Wand, self).__init__(name="wand", is_gettable=True)
         self.dmg = 100
 
     def description(self):

@@ -127,7 +127,15 @@ def parse(prompt):
     elif get_first_word(input) in looking:    
         look_prompt = input[0]
         thing = input[-1]
-        player.look(look_prompt, thing)
+        
+        # User supplied a look prompt but nothing to look at, view, see, etc.
+        if thing == look_prompt:
+            if look_prompt == "look":
+                look_prompt += " at"
+            print "What do you want to %s?" % look_prompt
+
+        else:
+            player.look(thing)
     
     # Take something.
     elif get_first_word(input) in taking:    
