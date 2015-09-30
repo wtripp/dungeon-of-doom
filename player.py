@@ -1,4 +1,3 @@
-"""The player that the user operates."""
 from sys import exit
 from random import randint
 
@@ -6,6 +5,7 @@ import enemies
 import items
 from map import rooms
 from util import delay
+"""The player that the user operates."""
 
 
 class Player(object):
@@ -46,7 +46,7 @@ You have %s hit points left.""" % self.hp
         if use_connecter and other_object:
             
             # X and Y are in the player's inventory.
-            if object and other_object in self.inventory:
+            if object in self.inventory and other_object in self.inventory:
                 useResult = self.inventory[object].useOn(
                 self.inventory[other_object])
                 

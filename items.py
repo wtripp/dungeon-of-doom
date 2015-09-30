@@ -1,5 +1,5 @@
-"""Items in the game."""
 import enemies
+"""Items in the game."""
 
 
 class Item(object):
