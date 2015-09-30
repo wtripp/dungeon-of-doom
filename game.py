@@ -106,7 +106,7 @@ def parse(prompt):
     
     # View inventory.
     elif len(input) == 1 and get_first_word(input) == "inventory":
-        return player.look("look", "inventory")
+        return player.look("inventory")
     
     # View help.
     elif len(input) == 1 and get_first_word(input) == "help":
@@ -125,7 +125,7 @@ def parse(prompt):
         
         # Format the direction for the player's move method.
         # For example, "north" becomes "N"
-        direction = input[0][0].upper()
+        direction = input[-1][0].upper()
         player.move(direction)
     
     # Fight an enemy.

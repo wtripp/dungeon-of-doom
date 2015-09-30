@@ -187,13 +187,14 @@ You have %s hit points left.""" % self.hp
         
             for content_name, content in room_contents.items():
             
-                # The item has an inventory (such as an enemy).
-                if hasattr(content,'inventory'):
+                # The item has an inventory and is a living thing (an enemy).
+                if hasattr(content,'inventory') and hasattr(content,'is_alive'):
                     for item_name, item in content.inventory.items():
                         
-                        # If the item is there, add it to the player's inventory
-                        # and delete it from the item's (enemy's) inventory.
-                        if item_name == thing:
+                        # If the item is there and the enemy (content) is dead,
+                        # add the item to the player's inventory
+                        # and delete it from the enemy's inventory.
+                        if item_name == thing and not content.is_alive():
                             print "You %s the %s." % (take_prompt, item_name)
                             self.inventory[item_name] = item
                             del content.inventory[item_name]
@@ -210,14 +211,18 @@ You have %s hit points left.""" % self.hp
                       "E" : "east",
                       "W" : "west"}
         
-        current_room = rooms[self.room]
-        next_room = getattr(current_room, direction)
+        try:
+            current_room = rooms[self.room]
+            next_room = getattr(current_room, direction)
 
-        if next_room is not None:
-            print "You go %s." % directions[direction]
-            self.room = next_room
-        else:
-            print "You cannot go that way!"
+            if next_room is not None:
+                print "You go %s." % directions[direction]
+                self.room = next_room
+            else:
+                print "You cannot go that way!"
+                
+        except AttributeError:
+            print "You want to do what?"
             
 def dead():
     """Prints a quip about the player's death and then exits the game."""
